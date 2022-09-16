@@ -1,0 +1,94 @@
+import rolando.*
+import artefactos.*
+
+describe "Tests de Hechiceria" {
+	
+	const hechizoPoderoso = object {
+			method esPoderoso() = true
+		}
+
+	test "Nivel de hechicería de Rolando - Base" {
+		/**
+		 * 56 = 3 * 17 (que es el poder de su hechizo preferido) + 5 (valor de la fuerza oscura)
+		 */
+		assert.equals(56, rolando.nivelDeHechiceria())
+	}
+	
+	test "Nivel de hechicería de Rolando con espectro superrecontramalefico muajajaja" {
+		espectroMalefico.nombre("espectro superrecontramalefico muajajaja")
+		assert.equals(125, rolando.nivelDeHechiceria())
+	}
+	
+	test "Nivel de hechicería de Rolando con Hechizo básico" {
+		rolando.hechizoPreferido(hechizoBasico)
+		assert.equals(35, rolando.nivelDeHechiceria())
+	}
+	
+	test "Nivel de hechicería de Rolando tras un eclipse" {
+		fuerzaOscura.eclipse()
+		assert.equals(61, rolando.nivelDeHechiceria())
+	}
+	
+	test "Espectro maléfico es poderoso" {
+		assert.that(espectroMalefico.esPoderoso())
+	}
+	
+	test "Espectro maléfico 'pepe' NO es poderoso" {
+		espectroMalefico.nombre("pepe")
+		assert.notThat(espectroMalefico.esPoderoso())
+	}
+	
+	test "Espectro maléfico con 15 letras NO es poderoso" {
+		espectroMalefico.nombre("123456789012345")
+		assert.notThat(espectroMalefico.esPoderoso())
+	}
+	
+	test "Hechizo básico NO es poderoso" {
+		assert.notThat(hechizoBasico.esPoderoso())
+	}
+	
+	test "Rolando poderoso con hechizo poderoso" {
+		rolando.hechizoPreferido(hechizoPoderoso)
+		assert.that(rolando.esPoderoso())
+	}
+	
+}
+
+
+describe "Tests de Lucha" {
+	
+	const motosierraDelDestino = object {
+		method unidadesDeLucha() = 1000
+	}
+
+	test "El valor de lucha de Rolando es de 4" {
+		assert.equals(4, rolando.valorDeLucha())
+	}
+	
+	test "El valor de lucha de Rolando con collar es de 6" {
+		rolando.artefacto(collarDivino)
+		assert.equals(6, rolando.valorDeLucha())
+	}
+	
+	test "El valor de lucha de Rolando con Mascara Oscura es de 5" {
+		rolando.artefacto(mascaraOscura)
+		assert.equals(5, rolando.valorDeLucha())
+	}
+	
+	test "El valor de lucha de Rolando con Mascara Oscura (con eclipse) es de 6" {
+		rolando.artefacto(mascaraOscura)
+		fuerzaOscura.eclipse()
+		assert.equals(6, rolando.valorDeLucha())
+	}
+	
+	test "Rolando no es mejor luchador que hechicero (56 >> 4)" {
+		assert.notThat(rolando.esMejorLuchadorQueHechicero())
+	}
+	
+	test "Rolando es mejor luchador que hechicero (56 << 1000 aprox)" {
+
+		rolando.artefacto(motosierraDelDestino)
+		assert.that(rolando.esMejorLuchadorQueHechicero())
+	}
+	
+}
