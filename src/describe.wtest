@@ -1,7 +1,13 @@
 import rolando.*
 import artefactos.*
 
-describe "Tests de Hechiceria" {
+const espectroMalefico = new HechizoDeLogos(nombre="espectro maléfico")
+const rolando = new Personaje(hechizoPreferido = espectroMalefico)
+const mascaraOscura = new MascaraOscura(indiceOscuridad = 1)
+const armadura = new Armadura()
+const espadaDelDestino = armaBlanca
+
+describe "Tests de Hechiceria" {	
 	
 	const hechizoPoderoso = object {
 			method esPoderoso() = true
@@ -15,7 +21,8 @@ describe "Tests de Hechiceria" {
 	}
 	
 	test "Nivel de hechicería de Rolando con espectro superrecontramalefico muajajaja" {
-		espectroMalefico.nombre("espectro superrecontramalefico muajajaja")
+		const otroHechizoMuajaja = new HechizoDeLogos(nombre="espectro superrecontramalefico muajajaja")
+		rolando.hechizoPreferido(otroHechizoMuajaja)
 		assert.equals(125, rolando.nivelDeHechiceria())
 	}
 	
@@ -34,13 +41,13 @@ describe "Tests de Hechiceria" {
 	}
 	
 	test "Espectro maléfico 'pepe' NO es poderoso" {
-		espectroMalefico.nombre("pepe")
-		assert.notThat(espectroMalefico.esPoderoso())
+		const hechizoPepe = new HechizoDeLogos(nombre = "pepe")
+		assert.notThat(hechizoPepe.esPoderoso())
 	}
 	
 	test "Espectro maléfico con 15 letras NO es poderoso" {
-		espectroMalefico.nombre("123456789012345")
-		assert.notThat(espectroMalefico.esPoderoso())
+		const hechizoDeLogos = new HechizoDeLogos(nombre = "123456789012345")
+		assert.notThat(hechizoDeLogos.esPoderoso())
 	}
 	
 	test "Hechizo básico NO es poderoso" {
@@ -58,7 +65,7 @@ describe "Tests de Hechiceria" {
 describe "Tests de Lucha" {
 	
 	const motosierraDelDestino = object {
-		method unidadesDeLucha() = 1000
+		method unidadesDeLucha(personaje) = 1000
 	}
 
 	test "El valor de lucha de Rolando es de 4" {
@@ -86,9 +93,19 @@ describe "Tests de Lucha" {
 	}
 	
 	test "Rolando es mejor luchador que hechicero (56 << 1000 aprox)" {
-
 		rolando.artefacto(motosierraDelDestino)
 		assert.that(rolando.esMejorLuchadorQueHechicero())
 	}
+	
+	test "El valor de lucha de Rolando con Armadura sin refuerzo es 3" {
+		rolando.artefacto(armadura)
+		assert.equals(3, rolando.valorDeLucha())
+	}
+
+	test "El valor de lucha de Rolando con Armadura con bendición es 59" {
+		rolando.artefacto(armadura)
+		armadura.refuerzo(bendicion)
+		assert.equals(59, rolando.valorDeLucha())
+	}	
 	
 }

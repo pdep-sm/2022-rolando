@@ -1,10 +1,10 @@
 import artefactos.*
 
-object rolando {
+class Personaje {
 	
 	const valorBaseHechiceria = 3
 	var valorBaseLucha = 1
-	var hechizoPreferido = espectroMalefico
+	var hechizoPreferido
 	var artefacto = espadaDelDestino
 	
 	method valorBaseLucha(nuevoValor) {
@@ -23,7 +23,7 @@ object rolando {
 	}
 	
 	method valorDeLucha() =
-		valorBaseLucha + artefacto.unidadesDeLucha()
+		valorBaseLucha + artefacto.unidadesDeLucha(self)
 	
 	method esPoderoso() = hechizoPreferido.esPoderoso()
 	
@@ -32,25 +32,27 @@ object rolando {
 	
 }
 
-object hechizoBasico {
+class Hechizo {
 	
-	method poder() = 10
-	
-	method esPoderoso() = false
-	
-}
-
-object espectroMalefico {
-	
-	var nombre = "espectro maléfico"
-	
-	method nombre(nuevoNombre) {
-		nombre = nuevoNombre
-	}
-
-	method poder() = nombre.size()
+	method poder()
+	method valor(personaje) = self.poder()
 	
 	method esPoderoso() = self.poder() > 15
+	
+	method precio() = self.poder()
+	
+	method precio(armadura) = armadura.valorBase() + self.precio()
+}
+
+object hechizoBasico inherits Hechizo {
+	override method poder() = 10		
+}
+
+class HechizoDeLogos inherits Hechizo {
+	const multiplicador = 1
+	const nombre
+	
+	override method poder() = nombre.size() * multiplicador
 }
 
 object fuerzaOscura {
