@@ -5,7 +5,7 @@ class Personaje {
 	const valorBaseHechiceria = 3
 	var valorBaseLucha = 1
 	var hechizoPreferido
-	var artefacto = espadaDelDestino
+	var artefacto = armaBlanca
 	
 	method valorBaseLucha(nuevoValor) {
 		valorBaseLucha = nuevoValor
