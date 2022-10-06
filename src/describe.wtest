@@ -1,5 +1,6 @@
-import rolando.*
+import personaje.*
 import artefactos.*
+import hechiceria.*
 
 const espectroMalefico = new HechizoDeLogos(nombre="espectro maléfico")
 const rolando = new Personaje(hechizoPreferido = espectroMalefico)
@@ -67,45 +68,63 @@ describe "Tests de Lucha" {
 	const motosierraDelDestino = object {
 		method unidadesDeLucha(personaje) = 1000
 	}
-
-	test "El valor de lucha de Rolando es de 4" {
-		assert.equals(4, rolando.valorDeLucha())
+		
+	method initialize(){
+		[armaBlanca, collarDivino, mascaraOscura].forEach{ artefacto => 
+			rolando.agregarArtefacto(artefacto)
+		}
+		//rolando.agregarArtefacto(armaBlanca)
+		//rolando.agregarArtefacto(collarDivino)
+		//rolando.agregarArtefacto(mascaraOscura)
 	}
 	
-	test "El valor de lucha de Rolando con collar es de 6" {
-		rolando.artefacto(collarDivino)
-		assert.equals(6, rolando.valorDeLucha())
+	test "El valor de lucha de Rolando sin artefactos es 1" {
+		rolando.artefactos().clear()
+		assert.equals(1, rolando.valorDeLucha())
 	}
 	
-	test "El valor de lucha de Rolando con Mascara Oscura es de 5" {
-		rolando.artefacto(mascaraOscura)
-		assert.equals(5, rolando.valorDeLucha())
+	test "El valor de lucha de Rolando con sus artefactos base es de 13" {
+		assert.equals(13, rolando.valorDeLucha())
 	}
 	
-	test "El valor de lucha de Rolando con Mascara Oscura (con eclipse) es de 6" {
-		rolando.artefacto(mascaraOscura)
+	test "El valor de lucha de Rolando con collar de 3 perlas es de 11" {
+		collarDivino.cantidadDePerlas(3)
+		assert.equals(11, rolando.valorDeLucha())
+	}
+	
+	test "El valor de lucha de Rolando con valor base 8 asciende a 20" {
+		rolando.valorBaseLucha(8)
+		assert.equals(20, rolando.valorDeLucha())
+	}
+	
+	test "El valor de lucha de Rolando con 'eclipse' es de 14" {
 		fuerzaOscura.eclipse()
-		assert.equals(6, rolando.valorDeLucha())
+		assert.equals(14, rolando.valorDeLucha())
 	}
 	
-	test "Rolando no es mejor luchador que hechicero (56 >> 4)" {
+	test "El valor de lucha de Rolando sin su Máscara Oscura es 9" {
+		rolando.quitarArtefacto(mascaraOscura)
+		assert.equals(9, rolando.valorDeLucha())
+	}
+	
+	test "Rolando no es mejor luchador que hechicero (56 >> 13)" {
 		assert.notThat(rolando.esMejorLuchadorQueHechicero())
 	}
 	
 	test "Rolando es mejor luchador que hechicero (56 << 1000 aprox)" {
-		rolando.artefacto(motosierraDelDestino)
+		rolando.agregarArtefacto(motosierraDelDestino)
 		assert.that(rolando.esMejorLuchadorQueHechicero())
 	}
 	
-	test "El valor de lucha de Rolando con Armadura sin refuerzo es 3" {
-		rolando.artefacto(armadura)
-		assert.equals(3, rolando.valorDeLucha())
+	test "El valor de lucha de Rolando con Armadura sin refuerzo es 15" {
+		rolando.agregarArtefacto(armadura)
+		assert.equals(15, rolando.valorDeLucha())
 	}
 
-	test "El valor de lucha de Rolando con Armadura con bendición es 59" {
-		rolando.artefacto(armadura)
+	test "El valor de lucha de Rolando con Armadura con bendición es 71" {
+		rolando.agregarArtefacto(armadura)
 		armadura.refuerzo(bendicion)
-		assert.equals(59, rolando.valorDeLucha())
+		assert.equals(71, rolando.valorDeLucha())
 	}	
 	
 }

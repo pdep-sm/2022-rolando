@@ -1,4 +1,4 @@
-import rolando.fuerzaOscura
+import hechiceria.fuerzaOscura
 
 object armaBlanca {
 	const unidadesDeLucha = 3
@@ -32,6 +32,18 @@ class MascaraOscura {
 	method precio() = 70 + fuerzaOscura.valor() * indiceOscuridad
 }
 
+
+object espejo {
+	
+	method unidadesDeLucha(personaje) {
+		const artefactosSinMi = personaje.artefactos().copyWithout(self)
+		if (artefactosSinMi.isEmpty())
+			return 0
+		else
+			return artefactosSinMi.map{a => a.unidadesDeLucha(personaje)}.max()
+	}
+}
+
 class Armadura {
 	const property valorBase = 2
 	var property refuerzo = refuerzoNulo
@@ -60,3 +72,4 @@ object refuerzoNulo {
 	
 	method precio(armadura) = 2
 }
+
